@@ -1,0 +1,36 @@
+<section class="flex flex-col mt-10">
+  <div class="flex justify-between mx-40">
+    <h1>Seus Baralhos</h1>
+    <button (click)="openDialog()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Criar um baralho</button>
+  </div>
+
+  <div class="flex flex-wrap justify-evenly">
+    <mat-card class="m-10 w-80" *ngFor="let deck of deckList; let i = index">
+      <mat-card-header>
+        <mat-card-title>{{ deck.nomeDoBaralho }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <img class="w-290" src="{{ 'assets/carta.png' }}" alt="card">
+        <div class="flex justify-between font-bold mt-5">
+          <button (click)="showDetailsToggle()" class="text-cornflowerblue">+ Detalhes</button>
+        </div>
+        <div *ngIf="showDetails" class="flex justify-between font-bold mt-2">
+          <div>
+            <p>Numero de Cartas:</p>
+            <p>Cartas Treinador:</p>
+            <p>Tipos únicos:</p>
+          </div>
+          <div>
+            <p>{{ deck.numeroCartas }}</p>
+            <p>{{ deck.cartasTreinador }}</p>
+            <p>{{ deck.uniqueTypes }}</p>
+          </div>
+        </div>
+      </mat-card-content>      
+      <div class="flex justify-between">
+        <button (click)="deleteDeck(i)" type="button" class="text-red-500 hover:text-red-700" mat-icon-button><mat-icon>delete</mat-icon></button>
+        <button (click)="openDialog(deck, i)" type="button" class="text-green-500 hover:text-green-700" mat-icon-button><mat-icon>edit</mat-icon></button>
+      </div>
+    </mat-card>
+  </div>
+</section>

@@ -1,0 +1,57 @@
+<div class="box p-5">
+    <div class="header-dialog flex flex-col items-center">
+        <div class="mt-8">
+            <h1>Crie o seu baralho</h1>
+        </div>
+        <form [formGroup]="deckForm" (ngSubmit)="enviarFormulario()">
+            <mat-form-field appearance="fill" class="custom-input">
+                <mat-label>Nome do baralho</mat-label>
+                <input matInput formControlName="nome" placeholder="Digite seu nome">
+                <mat-error *ngIf="deckForm.get('nome')?.hasError('required')">Nome é obrigatório</mat-error>
+                <mat-error *ngIf="deckForm.get('nome')?.hasError('minlength')">Nome deve ter pelo menos 5 caracteres</mat-error>
+                <mat-error *ngIf="deckForm.get('nome')?.hasError('maxlength')">Nome deve ter no máximo 18 caracteres</mat-error>
+            </mat-form-field>
+        </form>
+    </div>
+    <section>
+        <div class="table-container max-h-500 overflow-y-auto border border-gray-300 mt-30">
+            <table mat-table [dataSource]="cards" class="mat-elevation-z8 table w-full">
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef class="colum-tittle">
+                        Selecionar
+                    </th>
+                    <td mat-cell *matCellDef="let card">
+                        <input type="checkbox" [checked]="card.selected" (change)="toggleSelection(card)" />
+                    </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="image">
+                    <th mat-header-cell *matHeaderCellDef class="colum-tittle">
+                        Imagem
+                    </th>
+                    <td mat-cell *matCellDef="let card">
+                        <img [src]="card.images.large" alt="{{ card.name }}" width="80" height="80" />
+                    </td>
+                </ng-container>
+    
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </section>
+    <div class="loading-adjust flex justify-around mt-220 mb-220" *ngIf="loading">
+        <mat-progress-spinner
+            class="loader-margin"
+            [color]="color"
+            [mode]="mode"
+            [value]="value">
+        </mat-progress-spinner>
+    </div>
+
+    <!-- Itens Selecionados -->
+    <div class="bottom-box flex mt-10 justify-center">
+        <div>
+            <button mat-raised-button color="primary" (click)="enviarFormulario()" [disabled]="buttomDisable || deckForm.invalid" >Continuar</button>
+        </div>
+    </div>
+</div>
